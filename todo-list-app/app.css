@@ -1,0 +1,162 @@
+/* @import url("https://fonts.google.com/specimen/Roboto?query=roboto"); */
+
+body {
+  background-color: rgb(34, 34, 34);
+  color: rgb(34, 34, 34);
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  margin: auto;
+  padding: 10px 20px;
+  height: 96vh;
+  width: 90%;
+  border-radius: 10px;
+  background-color: rgb(238, 238, 238);
+}
+
+.to-do-heading {
+  color: blueviolet;
+  font-size: 3.5em;
+  margin: 0;
+  margin-bottom: 0.5em;
+}
+
+.no-tasks:before {
+  content: "No Tasks";
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1.4em;
+  color: rgb(192, 192, 192);
+}
+.no-task-invisible {
+  font-size: 2em;
+}
+
+.add-new-task-btn {
+  color: blueviolet;
+  background-color: transparent;
+  border: none;
+  font-size: 2em;
+  font-weight: 600;
+  position: absolute;
+  bottom: 10px;
+}
+
+.add-new-task-btn::before {
+  margin-top: 15px;
+  content: "+";
+  font-size: 1.1em;
+  display: inline-block;
+  color: rgb(255, 255, 255);
+  background-color: blueviolet;
+  height: 1.15em;
+  width: 1.15em;
+  margin-right: 10px;
+  border-radius: 50%;
+  align-self: center;
+  line-height: 1em;
+}
+.add-new-task-btn:hover {
+  color: rgb(170, 113, 224);
+  cursor: pointer;
+}
+.add-new-task-btn:hover::before {
+  background-color: rgb(170, 113, 224);
+}
+
+.form-control {
+  font-family: system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto 0.8em 2em 2em 2em;
+  gap: 0.5em;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: rgb(238, 238, 238);
+  margin: 0;
+  font: inherit;
+  color: rgb(192, 192, 192);
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.1em solid currentColor;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+.form-control + .form-control {
+  margin-top: 0.8em;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  background-color: rgb(170, 113, 224);
+  color: rgb(170, 113, 224);
+  border-radius: 50%;
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  color: rgb(170, 113, 224);
+}
+input[type="checkbox"]:checked {
+  color: rgb(170, 113, 224);
+  transition: 140ms transform ease-in-out;
+}
+
+input[type="text"] {
+  border: none;
+  font-size: 0.8em;
+  background-color: transparent;
+  border-bottom: solid 1px rgb(192, 192, 192);
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  filter: opacity(70%);
+}
+
+.details-btn {
+  background-color: rgb(192, 192, 192);
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+
+.flag-btn {
+  background-color: rgb(224, 138, 9);
+  border: none;
+  color: aliceblue;
+  font-weight: 600;
+}
+
+.del-btn {
+  background-color: rgb(221, 15, 15);
+  border: none;
+  color: aliceblue;
+  font-weight: 600;
+}
