@@ -3,16 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <link rel="stylesheet" href="/todo-list-app/app.css" />
     <title>Todo list</title>
   </head>
   <body>
-    <div class="container">
-      <div class="no-tasks"></div>
-      <h1 class="to-do-heading">To do</h1>
-      <div class="list"></div>
-
-      <button class="add-new-task-btn js-add-new-task-btn">New Task</button>
+    <div class="app">
+      <div class="side-bar">
+        <div class="side-bar-section">
+          <h1 class="side-bar-elements">Today</h1>
+          <h1 class="side-bar-elements">Scheduled</h1>
+          <h1 class="side-bar-elements">All</h1>
+          <h1 class="side-bar-elements">Flagged</h1>
+          <h1 class="side-bar-elements">Completed</h1>
+        </div>
+        <div class="side-bar-lists-section">
+          <h1 class="">My lists</h1>
+          <h1 class="side-bar-section-list">Reminders</h1>
+          <h1 class="side-bar-list-1">To do</h1>
+        </div>
+      </div>
+      <div class="container">
+        <div class="no-tasks"></div>
+        <h1 class="to-do-heading">To do</h1>
+        <div class="list"></div>
+        <button class="add-new-task-btn js-add-new-task-btn">New Task</button>
+      </div>
     </div>
   </body>
   <script src="/todo-list-app/app.js"></script>
