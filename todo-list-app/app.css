@@ -11,24 +11,25 @@ body {
 
 .app {
   display: flex;
+  height: auto;
+  /*outline: solid 3px red;*/
 }
 .container {
-  width: 100%;
   position: relative;
-  margin: auto;
+  width: 100%;
+  height: auto;
   padding: 10px 20px 50px 20px;
-  min-height: 93svh;
   border-radius: 0 10px 10px 0;
   background-color: rgb(238, 238, 238);
 }
 
 .side-bar {
+  width: clamp(11em, 15%, 20%);
+  position: sticky;
+  top: 0;
+  height: 100svh;
   border-right: solid 1px rgb(192, 192, 192);
-  width: 20%;
-  position: relative;
-  margin: auto;
-  padding: 10px 20px 50px 20px;
-  min-height: 93svh;
+  padding: 0 20px;
   border-radius: 10px 0 0px 10px;
   background-color: rgb(238, 238, 238);
 }
@@ -48,6 +49,7 @@ body {
 
 .side-bar-elements:hover {
   filter: opacity(70%);
+  cursor: pointer;
 }
 
 .side-bar-elements::before {
@@ -62,23 +64,33 @@ body {
   text-align: center;
 }
 .side-bar-elements:nth-child(1):before {
-  content: "📅";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f274";
   background-color: #4668ff;
 }
 .side-bar-elements:nth-child(2):before {
-  content: "📅";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f073";
   background-color: #ff4646;
 }
 .side-bar-elements:nth-child(3):before {
-  content: "📥";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f01c";
   background-color: #000000;
 }
 .side-bar-elements:nth-child(4):before {
-  content: "⚑";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f024";
   background-color: rgb(238, 146, 8);
 }
 .side-bar-elements:nth-child(5):before {
-  content: "✔";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00c";
   background-color: #575757;
 }
 
@@ -100,6 +112,7 @@ body {
 .side-bar-section-list:hover,
 .side-bar-list-1:hover {
   filter: opacity(70%);
+  cursor: pointer;
 }
 
 .side-bar-section-list::before,
@@ -118,11 +131,15 @@ body {
 }
 
 .side-bar-section-list:nth-child(2):before {
-  content: "⋮≡";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f03a";
   background-color: rgb(238, 146, 8);
 }
 .side-bar-list-1:nth-child(3):before {
-  content: "⋮≡";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f03a";
   background-color: rgb(127, 8, 238);
 }
 
@@ -131,10 +148,25 @@ body {
 }
 
 .to-do-heading {
+  z-index: 1;
+  position: sticky;
+  top: -5px;
   color: blueviolet;
   font-size: 3.5em;
   margin: 0;
   margin-bottom: 0.5em;
+}
+.to-do-heading::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  height: 1.8em;
+  width: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 0) 0%,
+    rgba(238, 238, 238, 1) 46%
+  );
 }
 
 .no-tasks:before {

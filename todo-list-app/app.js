@@ -1,6 +1,7 @@
 const newTaskBtn = document.querySelector(".js-add-new-task-btn");
 const listContainer = document.querySelector(".list");
 const noTasksText = document.querySelector(".no-tasks");
+const listTodoBtn = document.querySelector(".js-side-list-to-do");
 
 let listItems = JSON.parse(localStorage.getItem("todoList")) || [];
 
@@ -106,3 +107,4 @@ function storeTodoList() {
 }
 
 newTaskBtn.addEventListener("click", addTask);
+listTodoBtn.addEventListener("click", renderTasksList);
