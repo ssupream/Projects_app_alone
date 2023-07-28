@@ -1,8 +1,10 @@
 body {
-  background-color: rgb(34, 34, 34);
+  background-color: rgb(238, 238, 238);
   color: rgb(34, 34, 34);
   font-family: "inter", Arial, Helvetica, sans-serif;
   box-sizing: border-box;
+  margin: 0;
+  position: relative;
 }
 
 ::selection {
@@ -11,26 +13,17 @@ body {
 
 .app {
   display: flex;
-  height: auto;
-  /*outline: solid 3px red;*/
-}
-.container {
-  position: relative;
-  width: 100%;
-  height: auto;
-  padding: 10px 20px 50px 20px;
-  border-radius: 0 10px 10px 0;
+  min-height: 100svh;
+  margin-bottom: -3em;
   background-color: rgb(238, 238, 238);
 }
 
 .side-bar {
-  width: clamp(11em, 15%, 20%);
-  position: sticky;
+  width: clamp(10rem, 15%, 20%);
+  position: fixed;
   top: 0;
-  height: 100svh;
-  border-right: solid 1px rgb(192, 192, 192);
+  height: 100%;
   padding: 0 20px;
-  border-radius: 10px 0 0px 10px;
   background-color: rgb(238, 238, 238);
 }
 
@@ -45,6 +38,7 @@ body {
   display: flex;
   align-items: end;
   position: relative;
+  overflow: hidden;
 }
 
 .side-bar-elements:hover {
@@ -147,13 +141,23 @@ body {
   margin-top: 3em;
 }
 
+.container {
+  position: relative;
+  top: 0;
+  width: 100%;
+  min-height: 96svh;
+  border-left: solid 1px rgb(201, 201, 201);
+  margin-left: clamp(12.52rem, 24%, 17%);
+  padding: 10px 20px 50px 20px;
+  background-color: rgb(238, 238, 238);
+}
+
 .to-do-heading {
   z-index: 1;
   position: sticky;
   top: -5px;
   color: blueviolet;
   font-size: 3.5em;
-  margin: 0;
   margin-bottom: 0.5em;
 }
 .to-do-heading::before {
@@ -190,12 +194,26 @@ body {
   border: none;
   font-size: 2em;
   font-weight: 600;
+  position: sticky;
+  bottom: 0.6em;
+  margin-left: clamp(12.52rem, 24%, 17%);
+}
+
+.add-new-task-btn::after {
+  content: "";
+  z-index: -1;
   position: absolute;
-  bottom: 10px;
+  height: 140%;
+  width: 100vw;
+  transform: translateX(-5.8em);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 0, 36, 0) 0%,
+    rgba(238, 238, 238, 1) 46%
+  );
 }
 
 .add-new-task-btn::before {
-  margin-top: 15px;
   content: "+";
   font-size: 1.1em;
   display: inline-block;
@@ -203,7 +221,7 @@ body {
   background-color: blueviolet;
   height: 1em;
   width: 1em;
-  margin-right: 10px;
+  margin: 15px 10px 0 0;
   border-radius: 50%;
   align-self: center;
   line-height: 1em;
@@ -229,7 +247,6 @@ body {
 input[type="checkbox"] {
   appearance: none;
   background-color: rgb(238, 238, 238);
-  margin: 0;
   font: inherit;
   color: rgb(192, 192, 192);
   width: 1.15em;
@@ -335,7 +352,7 @@ button:hover {
 .task-flagged {
   text-align: end;
   position: absolute;
-  height: 2em;
+  height: 1.4em;
   width: 1.5em;
   color: rgb(238, 146, 8);
   background: linear-gradient(
@@ -345,6 +362,13 @@ button:hover {
   );
   font-size: 1.4em;
   right: 5.5em;
+}
+
+.task-flagged::before {
+  font-family: "Font Awesome 5 Free";
+  font-size: 0.65em;
+  font-weight: 900;
+  content: "\f024";
 }
 
 .del-btn {

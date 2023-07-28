@@ -33,9 +33,7 @@ function createTaskHTML(task, index) {
           task.title || ""
         }" placeholder="New Task" class="js-list-text"/>
         ${
-          task.flagged
-            ? '<div class="task-flagged js-task-flagged">⚑</div>'
-            : ""
+          task.flagged ? '<div class="task-flagged js-task-flagged"></div>' : ""
         }
         <button class="save-btn" onclick="saveTask(${index})">✅︎</button>      
         <button class="flag-btn" onclick="flagTask(${index})">⚑</button>
