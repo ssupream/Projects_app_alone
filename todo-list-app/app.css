@@ -1,10 +1,14 @@
 body {
-  background-color: rgb(238, 238, 238);
   color: rgb(34, 34, 34);
+  background: #e0e0e0;
   font-family: "inter", Arial, Helvetica, sans-serif;
   box-sizing: border-box;
   margin: 0;
   position: relative;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 ::selection {
@@ -12,25 +16,27 @@ body {
 }
 
 .app {
-  display: flex;
-  min-height: 100svh;
   margin-bottom: -3em;
-  background-color: rgb(238, 238, 238);
+  min-height: 100svh;
+  padding-bottom: 50px;
 }
 
 .side-bar {
-  width: clamp(10rem, 15%, 20%);
+  z-index: 1;
+  width: 15%;
   position: fixed;
-  top: 0;
   height: 100%;
-  padding: 0 20px;
-  background-color: rgb(238, 238, 238);
+  padding: 0 4em 0 1em;
+  overflow: auto;
 }
 
 .side-bar-elements {
-  background-color: rgb(201, 201, 201);
-  color: rgb(255, 255, 255);
+  max-width: min(120px, auto);
+  color: rgb(30, 30, 30);
+  background: #e0e0e0;
+  box-shadow: 10px 10px 60px #bebebe, -10px -11px 60px #ffffff;
   padding: 1em;
+  margin-right: 2em;
   font-size: 1.2em;
   font-weight: 400;
   height: 4em;
@@ -39,15 +45,17 @@ body {
   align-items: end;
   position: relative;
   overflow: hidden;
+  margin: 1.1em 0;
 }
 
 .side-bar-elements:hover {
-  filter: opacity(70%);
+  filter: brightness(1.1);
   cursor: pointer;
 }
 
 .side-bar-elements::before {
   content: "";
+  color: #ffffff;
   font-size: 1.2em;
   position: absolute;
   width: 50px;
@@ -88,49 +96,62 @@ body {
   background-color: #575757;
 }
 
-.side-bar-section-list,
-.side-bar-list-1 {
-  background-color: rgb(201, 201, 201);
-  color: rgb(255, 255, 255);
-  padding: 1em 1em 1em 3.5em;
-  font-size: 1.2em;
-  font-weight: 400;
-  height: 2em;
+.my-lists-heading {
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.side-bar-section-list {
+  background: #e0e0e0;
+  box-shadow: 10px 10px 60px #bebebe, -10px -11px 60px #ffffff;
+
+  color: rgb(30, 30, 30);
+  padding: 1em 0;
+  height: auto;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
   position: relative;
   line-height: 1em;
 }
 
-.side-bar-section-list:hover,
-.side-bar-list-1:hover {
-  filter: opacity(70%);
+.reminder-list:hover,
+.side-bar-list-todo:hover {
+  filter: brightness(1.1);
+  box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #bebebe;
+  background-color: #cfcfcf;
   cursor: pointer;
+  color: rgb(0, 0, 0);
 }
 
-.side-bar-section-list::before,
-.side-bar-list-1::before {
-  content: "";
-  margin-right: 0.6em;
+.reminder-list,
+.side-bar-list-todo {
+  color: rgb(30, 30, 30);
+  width: auto;
+  padding: 0.8em 0 0.8em 0.2em;
   font-size: 1.2em;
-  background-color: #000000;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  transform: translateX(-2.4em);
-  line-height: 2.2em;
-  text-align: center;
-  position: absolute;
+  font-weight: 400;
+  position: relative;
 }
 
-.side-bar-section-list:nth-child(2):before {
+.reminder-list::before,
+.side-bar-list-todo::before {
+  content: "";
+  color: #ffffff;
+  font-size: 1em;
+  padding: 0.5em;
+  margin-right: 0.3em;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.reminder-list:nth-child(1):before {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   content: "\f03a";
   background-color: rgb(238, 146, 8);
 }
-.side-bar-list-1:nth-child(3):before {
+.side-bar-list-todo:nth-child(2):before {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   content: "\f03a";
@@ -138,24 +159,20 @@ body {
 }
 
 .side-bar-lists-section {
-  margin-top: 3em;
+  margin-top: 2.5em;
 }
 
 .container {
   position: relative;
-  top: 0;
-  width: 100%;
-  min-height: 96svh;
-  border-left: solid 1px rgb(201, 201, 201);
-  margin-left: clamp(12.52rem, 24%, 17%);
-  padding: 10px 20px 50px 20px;
-  background-color: rgb(238, 238, 238);
+  margin-left: 20%;
+  top: 7em;
+  padding: 10px 20px 10px 20px;
 }
 
 .to-do-heading {
   z-index: 1;
-  position: sticky;
-  top: -5px;
+  position: fixed;
+  top: -0.2em;
   color: blueviolet;
   font-size: 3.5em;
   margin-bottom: 0.5em;
@@ -163,19 +180,19 @@ body {
 .to-do-heading::before {
   content: "";
   z-index: -1;
-  position: absolute;
-  height: 1.8em;
+  position: fixed;
+  height: 2em;
   width: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(2, 0, 36, 0) 0%,
-    rgba(238, 238, 238, 1) 46%
-  );
+  transform: translateY(-0.6em);
+  -webkit-mask: linear-gradient(black, black, transparent);
+  backdrop-filter: blur(8px);
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 80%);
 }
 
 .no-tasks:before {
   content: "No Tasks";
-  position: absolute;
+  z-index: -1;
+  position: fixed;
   display: flex;
   justify-content: center;
   top: 50%;
@@ -194,9 +211,8 @@ body {
   border: none;
   font-size: 2em;
   font-weight: 600;
-  position: sticky;
-  bottom: 0.6em;
-  margin-left: clamp(12.52rem, 24%, 17%);
+  position: fixed;
+  bottom: 20px;
 }
 
 .add-new-task-btn::after {
@@ -204,13 +220,11 @@ body {
   z-index: -1;
   position: absolute;
   height: 140%;
-  width: 100vw;
-  transform: translateX(-5.8em);
-  background: linear-gradient(
-    180deg,
-    rgba(2, 0, 36, 0) 0%,
-    rgba(238, 238, 238, 1) 46%
-  );
+  min-width: 90vw;
+  transform: translateX(-12.4rem);
+  -webkit-mask: linear-gradient(transparent, black, black);
+  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 90%);
 }
 
 .add-new-task-btn::before {
@@ -240,17 +254,19 @@ body {
   font-weight: bold;
   line-height: 1.1;
   display: grid;
-  grid-template-columns: 1em auto 2em 2em 2em;
+  grid-template-columns: 1em auto 2em 2em 3em;
   gap: 0.4em;
 }
 
 input[type="checkbox"] {
   appearance: none;
-  background-color: rgb(238, 238, 238);
+  background: #e0e0e0;
   font: inherit;
   color: rgb(192, 192, 192);
-  width: 1.15em;
-  height: 1.15em;
+  filter: blur(0.6px);
+  transform: translateY(0.1em);
+  width: 1em;
+  height: 1em;
   border: 0.1em solid currentColor;
   border-radius: 50%;
   display: grid;
@@ -270,12 +286,14 @@ input[type="checkbox"]::before {
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
+  filter: blur(5px) brightness(1.5);
   transition: 120ms transform ease-in-out;
 }
 
 input[type="checkbox"]:checked::before {
   transform: scale(1);
   color: rgb(170, 113, 224);
+  filter: blur(5px) brightness(1.2);
 }
 input[type="checkbox"]:checked {
   color: rgb(170, 113, 224);
@@ -329,24 +347,42 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  filter: opacity(70%);
+.save-btn:hover {
+  filter: brightness(1.1);
+  background-color: rgb(200, 255, 200);
+  box-shadow: 7px 7px 14px #bebebe, -7px -7px 14px rgba(200, 255, 200, 0.801);
+  color: #76a788;
 }
-
+.flag-btn:hover {
+  filter: brightness(1.1);
+  background-color: rgb(255, 185, 56);
+  box-shadow: 7px 7px 14px #bebebe, -7px -7px 14px rgba(255, 225, 200, 0.801);
+  color: #e4e4e4;
+}
+.del-btn:hover {
+  filter: brightness(1.1);
+  background-color: rgb(231, 64, 64);
+  box-shadow: 7px 7px 14px #bebebe, -7px -7px 14px rgba(255, 200, 200, 0.801);
+  color: #e4e4e4;
+}
 .save-btn {
-  background-color: rgb(87, 202, 34);
   border: none;
-  color: rgb(255, 255, 255);
+  border-radius: 17px;
+  background: #e0e0e0;
+  box-shadow: 7px 7px 14px #d0d0d0, -7px -7px 14px #f0f0f0;
+  color: rgb(34, 197, 34);
   font-weight: 600;
-  font-size: 0.58em;
+  font-size: 0.68em;
 }
 
 .flag-btn {
-  background-color: rgb(238, 146, 8);
   border: none;
-  color: aliceblue;
+  border-radius: 17px;
+  background: #e0e0e0;
+  box-shadow: 7px 7px 14px #d0d0d0, -7px -7px 14px #f0f0f0;
+  color: rgb(238, 146, 8);
   font-weight: 600;
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 .task-flagged {
@@ -355,13 +391,8 @@ button:hover {
   height: 1.4em;
   width: 1.5em;
   color: rgb(238, 146, 8);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(238, 238, 238, 1) 55%
-  );
   font-size: 1.4em;
-  right: 5.5em;
+  right: 6.4em;
 }
 
 .task-flagged::before {
@@ -372,8 +403,11 @@ button:hover {
 }
 
 .del-btn {
-  background-color: rgb(221, 15, 15);
   border: none;
-  color: aliceblue;
+  border-radius: 17px;
+  background: #e0e0e0;
+  box-shadow: 7px 7px 14px #d0d0d0, -7px -7px 14px #f0f0f0;
+  color: rgb(231, 64, 64);
   font-weight: 600;
+  font-size: 0.58em;
 }

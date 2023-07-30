@@ -1,33 +1,52 @@
 const newTaskBtn = document.querySelector(".js-add-new-task-btn");
 const listContainer = document.querySelector(".list");
 const noTasksText = document.querySelector(".no-tasks");
-const listTodoBtn = document.querySelector(".js-side-list-to-do");
 
-let listItems = JSON.parse(localStorage.getItem("todoList")) || [];
+const listCompletedBtn = document.querySelector(".js-side-list-completed");
+const listToDoBtn = document.querySelector(".js-side-list-to-do");
+
+let listTodayItems = [];
+let listScheduledItems = [];
+let listAllItems = [];
+let listFlaggedItems = [];
+let listCompletedItems = [];
+let listRemindersItems = [];
+let listTodoItems = JSON.parse(localStorage.getItem("todoList")) || [];
+
+const lists = [
+  listTodayItems,
+  listScheduledItems,
+  listAllItems,
+  listFlaggedItems,
+  listCompletedItems,
+  listRemindersItems,
+  listTodoItems,
+];
 
 renderTasksList();
 
 function renderTasksList() {
+  // lists.forEach((list, index));
   let tasksHTML = "";
-  listItems.forEach((task, index) => {
+  listTodoItems.forEach((task, index) => {
     tasksHTML += createTaskHTML(task, index);
   });
 
   listContainer.innerHTML = tasksHTML;
 
-  if (listItems.length === 0) {
+  if (listTodoItems.length === 0) {
     noTasksText.classList.add("no-tasks");
   } else {
     noTasksText.classList.remove("no-tasks");
   }
 
-  console.log(listItems);
+  console.log(listTodoItems);
 }
 
 function createTaskHTML(task, index) {
   return `
     <div class="task" data-task-index="${index}">
-      <label class="form-control">
+        <label class="form-control">
         <input type="checkbox" name="checkbox" />
         <input type="text" value="${
           task.title || ""
@@ -51,12 +70,12 @@ function addTask() {
     title: "",
     dueDate: "",
   };
-  listItems.push(newTask);
+  listTodoItems.push(newTask);
   renderTasksList();
 }
 
 function flagTask(index) {
-  const task = listItems[index];
+  const task = listTodoItems[index];
   task.flagged = !task.flagged;
 
   renderTasksList();
@@ -64,13 +83,13 @@ function flagTask(index) {
 }
 
 function deleteTask(index) {
-  listItems.splice(index, 1);
+  listTodoItems.splice(index, 1);
   renderTasksList();
   storeTodoList();
 }
 
 function saveTask(index) {
-  const task = listItems[index];
+  const task = listTodoItems[index];
   const taskTitleInput = (task.title = document.querySelector(
     `[data-task-index="${index}"] .js-list-text`
   ));
@@ -101,8 +120,9 @@ if (mm < 10) {
 const formattedToday = yyyy + "-" + mm + "-" + dd;
 
 function storeTodoList() {
-  localStorage.setItem("todoList", JSON.stringify(listItems));
+  localStorage.setItem("todoList", JSON.stringify(listTodoItems));
 }
 
 newTaskBtn.addEventListener("click", addTask);
-listTodoBtn.addEventListener("click", renderTasksList);
+listToDoBtn.addEventListener("click", renderTasksList);
+listCompletedBtn.addEventListener("click", renderTasksList);
