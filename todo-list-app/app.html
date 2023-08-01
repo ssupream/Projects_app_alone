@@ -28,27 +28,39 @@
     <div class="app">
       <div class="side-bar">
         <div class="side-bar-section">
-          <h1 class="side-bar-elements">Today</h1>
-          <h1 class="side-bar-elements">Scheduled</h1>
-          <h1 class="side-bar-elements">All</h1>
-          <h1 class="side-bar-elements">Flagged</h1>
-          <h1 class="side-bar-elements js-side-list-completed">Completed</h1>
+          <h1 class="side-bar-elements js-side-list-today js-side-btn">
+            Today
+          </h1>
+          <h1 class="side-bar-elements js-side-list-scheduled js-side-btn">
+            Scheduled
+          </h1>
+          <h1 class="side-bar-elements js-side-list-all js-side-btn">All</h1>
+          <h1 class="side-bar-elements js-side-list-flagged js-side-btn">
+            Flagged
+          </h1>
+          <h1 class="side-bar-elements js-side-list-completed js-side-btn">
+            Completed
+          </h1>
         </div>
         <div class="side-bar-lists-section">
           <h1 class="my-lists-heading">My lists</h1>
           <div class="side-bar-section-list">
-            <h1 class="reminder-list">Reminders</h1>
-            <h1 class="side-bar-list-todo js-side-list-to-do">To do</h1>
+            <h1 class="reminder-list js-side-list-reminders js-side-btn">
+              Reminders
+            </h1>
+            <h1 class="side-bar-list-todo js-side-list-to-do js-side-btn">
+              To do
+            </h1>
           </div>
         </div>
       </div>
+      <div class="container-heading"></div>
       <div class="container">
         <div class="no-tasks"></div>
-        <h1 class="to-do-heading">To do</h1>
         <div class="list"></div>
         <button class="add-new-task-btn js-add-new-task-btn">New Task</button>
       </div>
     </div>
+    <script src="/todo-list-app/app.js"></script>
   </body>
-  <script src="/todo-list-app/app.js"></script>
 </html>
