@@ -83,21 +83,35 @@ function createTaskHTML(task, index) {
   `;
 }
 
+let timeId; 
+
 function checkCheckbox(index) {
   const checkbox = document.querySelector(
     `[data-task-index="${index}"] input[name=checkbox]`
   );
+  
+
+  let task = listSectionArray[index];
+  
+
+  let completed = lists.listSectionCompleted;
 
   if (checkbox.checked) {
-    checkbox.setAttribute("checked", "checked");
-    let completed = lists.listSectionCompleted;
-    let task = listSectionArray[index];
-    task.checked = completed.push(task);
-    storeTodoListCompleted();
-    listSectionArray.splice(index, 1);
-    renderTasksList();
-    storeTodoList();
+    clearTimeout(timeId);
+    timeId = setTimeout(() => {
+      task.checked = true;
+      checkbox.checked = true;
+      console.log("Checkbox is checked..");
+      completed.push(task);
+      storeTodoListCompleted();
+  
+      listSectionArray.splice(index, 1);
+  
+      storeTodoList();
+      renderTasksList();
+    }, 2000);
   } else {
+    clearTimeout(timeId);
     console.log("Checkbox is not checked..");
   }
 }
