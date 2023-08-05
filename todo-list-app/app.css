@@ -26,12 +26,15 @@ body {
 }
 
 .side-bar {
-  z-index: 1;
   width: 15%;
   position: fixed;
   height: 100%;
   padding: 0 4em 0 1em;
   overflow: auto;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .side-bar-elements {
@@ -39,7 +42,7 @@ body {
   color: rgb(30, 30, 30);
   background: #e0e0e0;
   box-shadow: 10px 10px 60px #bebebe, -10px -10px 60px #ffffff;
-  padding: 1em;
+  padding: 1.1em 1em;
   margin-right: 2em;
   font-size: 1.2em;
   font-weight: 400;
@@ -111,17 +114,15 @@ body {
   background: #e0e0e0;
   box-shadow: 10px 10px 60px #bebebe, -10px -10px 60px #ffffff;
   color: rgb(30, 30, 30);
-  padding: ;
   height: auto;
-  border-radius: 20px;
+  border-radius: 10px;
   position: relative;
-  line-height: 1em;
   transition: ease-in-out 0.5s;
 }
 
 .side-bar-section-list:hover {
   box-shadow: 15px 30px 40px #bebebe, 0px 0px 80px #ffffff;
-  background: #fdfdfd;
+  background: #f0f0f0;
 }
 
 .reminder-list:hover {
@@ -140,13 +141,13 @@ body {
 .reminder-list {
   color: rgb(30, 30, 30);
   width: auto;
-  padding: 0.8em 0 0.8em 0.2em;
+  padding: 0.6em 0 0.6em 0.2em;
   font-size: 1.2em;
   font-weight: 400;
   position: relative;
   transition: ease-in-out 0.1s;
   box-shadow: 0px 0px 0px #bebebe;
-  border-radius: 20px 20px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 @media {
@@ -155,13 +156,13 @@ body {
 .side-bar-list-todo {
   color: rgb(30, 30, 30);
   width: auto;
-  padding: 0.8em 0 0.8em 0.2em;
+  padding: 0.6em 0 0.6em 0.2em;
   font-size: 1.2em;
   font-weight: 400;
   position: relative;
   transition: ease-in-out 0.1s;
   box-shadow: 0px 0px 0px #bebebe;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 10px 10px;
 }
 
 .reminder-list::before,
@@ -197,35 +198,48 @@ body {
 .container-heading {
   position: relative;
   margin-left: 20%;
-  top: 7em;
-  padding: 10px 20px 10px 20px;
+  padding: 0 20px 10px 20px;
 }
 
 .container {
   position: relative;
   margin-left: 20%;
   top: 7em;
-  padding: 10px 20px 10px 20px;
+  padding: 0px 20px 50px 20px;
 }
 
-.to-do-heading {
-  z-index: 1;
-  position: fixed;
-  top: -0.2em;
-  color: blueviolet;
-  font-size: 3.5em;
-  margin-bottom: 0.5em;
-}
-.to-do-heading::before {
+.container::before {
   content: "";
-  z-index: -1;
+  z-index: 2;
   position: fixed;
-  height: 2em;
+  top: 0;
+  height: 6rem;
   width: 100%;
-  transform: translateY(-0.6em);
-  -webkit-mask: linear-gradient(black, black, transparent);
+  -webkit-mask: linear-gradient(black, black, black, black, transparent);
   backdrop-filter: blur(8px);
-  background: linear-gradient(0deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 80%);
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 100%);
+}
+
+.container::after {
+  content: "";
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  height: 6rem;
+  width: 100%;
+  transform: translateY(0.6em);
+  -webkit-mask: linear-gradient(0deg, black, black, black, black, transparent);
+  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 100%);
+}
+
+.heading {
+  z-index: 3;
+  position: fixed;
+  top: 0em;
+  margin: 0.4em 0 0 0;
+  font-size: 3.5em;
+  color: rgb(127, 8, 238);
 }
 
 .no-tasks:before {
@@ -245,6 +259,7 @@ body {
 }
 
 .add-new-task-btn {
+  z-index: 3;
   color: blueviolet;
   background-color: transparent;
   border: none;
@@ -254,24 +269,13 @@ body {
   bottom: 20px;
 }
 
-.add-new-task-btn::after {
-  content: "";
-  z-index: -1;
-  position: absolute;
-  height: 140%;
-  min-width: 90vw;
-  transform: translateX(-12.4rem);
-  -webkit-mask: linear-gradient(transparent, black, black);
-  backdrop-filter: blur(8px);
-  background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, #e0e0e0f3 90%);
-}
-
 .add-new-task-btn::before {
   content: "+";
+  -webkit-text-fill-color: white;
+  text-decoration: revert;
   font-size: 1.1em;
   display: inline-block;
-  color: rgb(255, 255, 255);
-  background-color: blueviolet;
+  background: currentColor;
   height: 1em;
   width: 1em;
   margin: 15px 10px 0 0;
@@ -280,11 +284,11 @@ body {
   line-height: 1em;
 }
 .add-new-task-btn:hover {
-  color: rgb(170, 113, 224);
+  filter: brightness(1.1);
   cursor: pointer;
 }
 .add-new-task-btn:hover::before {
-  background-color: rgb(170, 113, 224);
+  filter: brightness(1.1);
 }
 
 .form-control {
@@ -295,6 +299,28 @@ body {
   display: grid;
   grid-template-columns: 1em auto 2em 2em 3em;
   gap: 0.4em;
+}
+
+.form-control-completed {
+  font-family: system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  filter: saturate(0) opacity(0.6);
+}
+
+.from-what-list {
+  z-index: -1;
+  margin-left: 2.9em;
+  width: 8em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border: none;
+  color: rgb(87, 87, 87);
+  font-size: 1em;
+  background-color: transparent;
+  position: relative;
+  transform: translateY(-4em) translateX(0.6em);
 }
 
 input[type="checkbox"] {
@@ -339,7 +365,11 @@ input[type="checkbox"]:checked {
   transition: 140ms transform ease-in-out;
 }
 
-input[type="text"] {
+.checkbox-completed {
+  filter: saturate(0);
+}
+
+.input {
   border: none;
   color: black;
   font-size: 0.8em;
@@ -350,7 +380,22 @@ input[type="text"] {
   width: calc(100% - 1.3em);
 }
 
-input[type="date"] {
+.input-completed {
+  height: 8rem;
+  width: 100%;
+  margin-left: 0.6em;
+  display: flex;
+  justify-content: start;
+  border: none;
+  color: black;
+  font-size: 0.8em;
+  background-color: transparent;
+  border-bottom: solid 1px rgb(192, 192, 192);
+  border-top: solid 1px rgb(192, 192, 192);
+  position: relative;
+}
+
+.date {
   margin-left: 2.9em;
   width: 8em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -360,6 +405,24 @@ input[type="date"] {
   background-color: transparent;
   position: relative;
   bottom: 1.8em;
+}
+.date-completed {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border: none;
+  color: rgb(87, 87, 87);
+  width: 8em;
+  font-size: 1em;
+  background-color: transparent;
+  margin-left: 0.4em;
+}
+
+.completed-date-completed {
+  z-index: -1;
+  color: rgb(87, 87, 87);
+  margin-left: 2.9em;
+  position: absolute;
+  display: flex;
+  transform: translateY(-5.8em) translateX(0.6em);
 }
 
 ::-webkit-calendar-picker-indicator {
