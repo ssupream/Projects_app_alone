@@ -10,8 +10,22 @@ const listFlaggedBtn = document.querySelector(".js-side-list-flagged");
 const listCompletedBtn = document.querySelector(".js-side-list-completed");
 const listRemindersBtn = document.querySelector(".js-side-list-reminders");
 const listToDoBtn = document.querySelector(".js-side-list-to-do");
-let listTitle = "";
+let listTitle = "" || "To do";
 let storageVariable = "" || "listSectionToDo";
+
+const date = new Date();
+let yyyy = date.getFullYear();
+let mm = date.getMonth() + 1;
+let dd = date.getDate();
+
+if (dd < 10) {
+  dd = "0" + dd;
+}
+if (mm < 10) {
+  mm = "0" + mm;
+}
+
+const formattedToday = yyyy + "-" + mm + "-" + dd;
 
 let lists = {
   listSectionToday: JSON.parse(localStorage.getItem("listSectionToday")) || [],
@@ -96,7 +110,7 @@ function createTaskHTML(task, index) {
   return ` 
     <div class="task" data-task-index="${index}">
         <label class="form-control">
-        <input type="checkbox" name="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
+        <input type="checkbox" name="checkbox" class="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
         <input type="text" value="${
           task.title || ""
         }" placeholder="New Task" class="input js-list-text"/>
@@ -118,16 +132,18 @@ function createTaskHTMLCompleted(task, index) {
   return ` 
     <div class="task" data-task-index="${index}">
         <label class="form-control-completed">
-        <input type="checkbox" name="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
+        <input type="checkbox" name="checkbox" class="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
         <input type="text" class="input-completed"value="${
           task.title || ""
         }" placeholder="New Task" class="js-list-text"/>
         ${
-          task.flagged ? '<div class="task-flagged js-task-flagged"></div>' : ""
+          task.flagged
+            ? '<div class="task-flagged-completed js-task-flagged"></div>'
+            : ""
         }
         
       </label>
-      <p class="from-what-list">Placeholder</p>
+      <p class="from-what-list">${task.list}</p>
       <div class="completed-date-completed"><p>Completed: </p> <input type="date" class="date-completed js-due-date-input" value="${
         task.dueDate || formattedToday
       }" /></div>
@@ -147,7 +163,7 @@ function checkCheckbox(index) {
   let completed = lists.listSectionCompleted;
 
   if (checkbox.checked) {
-    clearTimeout(timeId);
+    // clearTimeout(timeId);
     timeId = setTimeout(() => {
       checked = "checked";
       checkbox.classList.add("checkbox-completed");
@@ -172,6 +188,7 @@ function addTask() {
   const newTask = {
     title: "",
     dueDate: "",
+    list: "",
   };
   listSectionArray.push(newTask);
   storeTodoList();
@@ -186,6 +203,8 @@ function saveTask(index) {
   const taskDueDateInput = (task.dueDate = document.querySelector(
     `[data-task-index="${index}"] .js-due-date-input`
   ));
+
+  task.list = listTitle;
   task.title = taskTitleInput.value || "New task";
   task.dueDate = taskDueDateInput.value || formattedToday;
 
@@ -209,27 +228,14 @@ function deleteTask(index) {
   storeTodoList();
 }
 
-const date = new Date();
-let yyyy = date.getFullYear();
-let mm = date.getMonth() + 1;
-let dd = date.getDate();
-
-if (dd < 10) {
-  dd = "0" + dd;
-}
-if (mm < 10) {
-  mm = "0" + mm;
-}
-
-const formattedToday = yyyy + "-" + mm + "-" + dd;
-
 newTaskBtn.addEventListener("click", addTask);
 
 listTodayBtn.addEventListener("click", function () {
   createHeading(listTodayBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "#4668ff";
-  newTaskBtn.style.color = "#4668ff";
+  listTitle = "Today";
+  newTaskBtn.style.opacity = "1";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "#4668ff");
   listIndex = 0;
   storageVariable = "listSectionToday";
   listSectionArray = getCurrentListSectionArray();
@@ -238,9 +244,10 @@ listTodayBtn.addEventListener("click", function () {
 
 listScheduletBtn.addEventListener("click", function () {
   createHeading(listScheduletBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "#ff4646";
-  newTaskBtn.style.color = "#ff4646";
+  listTitle = "Scheduled";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "#ff4646");
+  newTaskBtn.style.opacity = "0";
   listIndex = 1;
   storageVariable = "listSectionScheduled";
   listSectionArray = getCurrentListSectionArray();
@@ -249,9 +256,10 @@ listScheduletBtn.addEventListener("click", function () {
 
 listAllBtn.addEventListener("click", function () {
   createHeading(listAllBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "#000000";
-  newTaskBtn.style.color = "#000000";
+  listTitle = "All";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "#000000");
+  newTaskBtn.style.opacity = "0";
   listIndex = 2;
   storageVariable = "listSectionAll";
   listSectionArray = getCurrentListSectionArray();
@@ -260,9 +268,10 @@ listAllBtn.addEventListener("click", function () {
 
 listFlaggedBtn.addEventListener("click", function () {
   createHeading(listFlaggedBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "rgb(238, 146, 8)";
-  newTaskBtn.style.color = "rgb(238, 146, 8)";
+  listTitle = "Flagged";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "rgb(238, 146, 8)");
+  newTaskBtn.style.opacity = "1";
   listIndex = 3;
   storageVariable = "listSectionFlagged";
   listSectionArray = getCurrentListSectionArray();
@@ -271,10 +280,9 @@ listFlaggedBtn.addEventListener("click", function () {
 
 listCompletedBtn.addEventListener("click", function () {
   createHeading(listCompletedBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "#575757";
-  newTaskBtn.style.color = "#575757";
-
+  const root = document.documentElement;
+  root.style.setProperty("--color", "#575757");
+  newTaskBtn.style.opacity = "0";
   listIndex = 4;
   storageVariable = "listSectionCompleted";
   listSectionArray = getCurrentListSectionArray();
@@ -283,9 +291,10 @@ listCompletedBtn.addEventListener("click", function () {
 
 listRemindersBtn.addEventListener("click", function () {
   createHeading(listRemindersBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "rgb(238, 146, 8)";
-  newTaskBtn.style.color = "rgb(238, 146, 8)";
+  listTitle = "Reminders";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "rgb(238, 146, 8)");
+  newTaskBtn.style.opacity = "1";
   listIndex = 5;
   storageVariable = "listSectionReminder";
   listSectionArray = getCurrentListSectionArray();
@@ -294,9 +303,10 @@ listRemindersBtn.addEventListener("click", function () {
 
 listToDoBtn.addEventListener("click", function () {
   createHeading(listToDoBtn.innerText);
-  const heading = document.querySelector(".heading");
-  heading.style.color = "rgb(127, 8, 238)";
-  newTaskBtn.style.color = "rgb(127, 8, 238)";
+  listTitle = "To do";
+  const root = document.documentElement;
+  root.style.setProperty("--color", "rgb(127, 8, 238)");
+  newTaskBtn.style.opacity = "1";
   listIndex = 6;
   storageVariable = "listSectionToDo";
   listSectionArray = getCurrentListSectionArray();

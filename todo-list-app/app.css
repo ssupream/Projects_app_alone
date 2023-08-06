@@ -1,3 +1,7 @@
+:root {
+  --color: rgb(127, 8, 238);
+}
+
 html {
   transition: ease-in 2s;
 }
@@ -239,7 +243,7 @@ body {
   top: 0em;
   margin: 0.4em 0 0 0;
   font-size: 3.5em;
-  color: rgb(127, 8, 238);
+  color: var(--color);
 }
 
 .no-tasks:before {
@@ -260,7 +264,7 @@ body {
 
 .add-new-task-btn {
   z-index: 3;
-  color: blueviolet;
+  color: var(--color);
   background-color: transparent;
   border: none;
   font-size: 2em;
@@ -302,12 +306,14 @@ body {
 }
 
 .form-control-completed {
+  z-index: -1;
   font-family: system-ui, sans-serif;
   font-size: 2rem;
   font-weight: bold;
   display: flex;
   align-items: center;
-  filter: saturate(0) opacity(0.6);
+  filter: saturate(1) opacity(0.6);
+  pointer-events: none;
 }
 
 .from-what-list {
@@ -328,10 +334,10 @@ input[type="checkbox"] {
   background: #e0e0e0;
   font: inherit;
   color: rgb(192, 192, 192);
-  filter: blur(0.6px);
+  filter: blur(0px);
   transform: translateY(0.1em);
-  width: 1em;
-  height: 1em;
+  width: 0.75em;
+  height: 0.75em;
   border: 0.1em solid currentColor;
   border-radius: 50%;
   display: grid;
@@ -345,28 +351,28 @@ input[type="checkbox"] {
 
 input[type="checkbox"]::before {
   content: "";
-  background-color: rgb(170, 113, 224);
-  color: rgb(170, 113, 224);
+  background-color: currentColor;
+  color: inherit;
   border-radius: 50%;
-  width: 0.65em;
-  height: 0.65em;
+  width: 0.75em;
+  height: 0.75em;
   transform: scale(0);
   filter: blur(5px) brightness(1.5);
   transition: 120ms transform ease-in-out;
 }
 
 input[type="checkbox"]:checked::before {
-  transform: scale(1);
-  color: rgb(170, 113, 224);
+  color: var(--color);
+  transform: scale(0.5);
   filter: blur(5px) brightness(1.2);
+  width: 0.75em;
+  height: 0.75em;
 }
 input[type="checkbox"]:checked {
-  color: rgb(170, 113, 224);
+  color: var(--color);
   transition: 140ms transform ease-in-out;
-}
-
-.checkbox-completed {
-  filter: saturate(0);
+  width: 0.75em;
+  height: 0.75em;
 }
 
 .input {
@@ -381,6 +387,7 @@ input[type="checkbox"]:checked {
 }
 
 .input-completed {
+  z-index: -1;
   height: 8rem;
   width: 100%;
   margin-left: 0.6em;
@@ -495,6 +502,23 @@ button {
   color: rgb(238, 146, 8);
   font-size: 1.4em;
   right: 6.4em;
+}
+
+.task-flagged-completed {
+  text-align: end;
+  position: absolute;
+  height: 1.4em;
+  width: 1.5em;
+  color: rgb(238, 146, 8);
+  font-size: 1.4em;
+  right: 1em;
+}
+
+.task-flagged-completed::before {
+  font-family: "Font Awesome 5 Free";
+  font-size: 0.65em;
+  font-weight: 900;
+  content: "\f024";
 }
 
 .task-flagged::before {
