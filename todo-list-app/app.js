@@ -10,7 +10,7 @@ const listFlaggedBtn = document.querySelector(".js-side-list-flagged");
 const listCompletedBtn = document.querySelector(".js-side-list-completed");
 const listRemindersBtn = document.querySelector(".js-side-list-reminders");
 const listToDoBtn = document.querySelector(".js-side-list-to-do");
-let listTitle = "" || "To do";
+let listTitle = "";
 let storageVariable = "" || "listSectionToDo";
 
 let nTasksToday = 0;
@@ -344,6 +344,7 @@ newTaskBtn.addEventListener("click", addTask);
 
 listTodayBtn.addEventListener("click", function () {
   createHeading("Today");
+  listTitle = "Today";
   newTaskBtn.style.opacity = "1";
   const root = document.documentElement;
   root.style.setProperty("--color", "#4668ff");
@@ -400,6 +401,7 @@ listCompletedBtn.addEventListener("click", function () {
 
 listRemindersBtn.addEventListener("click", function () {
   createHeading("Reminders");
+  listTitle = "Reminders";
   const root = document.documentElement;
   root.style.setProperty("--color", "rgb(238, 146, 8)");
   newTaskBtn.style.opacity = "1";
