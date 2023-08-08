@@ -13,6 +13,14 @@ const listToDoBtn = document.querySelector(".js-side-list-to-do");
 let listTitle = "" || "To do";
 let storageVariable = "" || "listSectionToDo";
 
+let nTasksToday = 0;
+let nTasksScheduled = 0;
+let nTasksAll = 0;
+let nTasksFlagged = 0;
+let nTasksCompleted = 0;
+let nTasksReminders = 0;
+let nTasksTodo = 0;
+
 const date = new Date();
 let yyyy = date.getFullYear();
 let mm = date.getMonth() + 1;
@@ -61,6 +69,14 @@ function renderTasksList() {
   });
   listContainer.innerHTML = tasksHTML;
 
+  nTasksToday = 0;
+  nTasksScheduled = 0;
+  nTasksAll = 0;
+  nTasksFlagged = 0;
+  nTasksCompleted = 0;
+  nTasksReminders = 0;
+  nTasksTodo = 0;
+
   if (listSectionArray.length === 0) {
     noTasksText.classList.add("no-tasks");
   } else {
@@ -72,6 +88,14 @@ function renderTasksList() {
     .forEach((checkbox, index) => {
       checkbox.checked = listSectionArray[index].checked || false;
     });
+
+  countTasksToday();
+  countTasksScheduled();
+  countTasksAll();
+  countTasksFlagged();
+  countTasksCompleted();
+  countTasksReminders();
+  countTasksTodo();
 
   console.log(listIndex, listSectionArray);
 }
@@ -83,6 +107,13 @@ function renderTasksListCompleted() {
   });
   listContainer.innerHTML = tasksHTML;
 
+  nTasksToday = 0;
+  nTasksScheduled = 0;
+  nTasksAll = 0;
+  nTasksFlagge = 0;
+  nTasksCompleted = 0;
+  nTasksReminders = 0;
+
   if (listSectionArray.length === 0) {
     noTasksText.classList.add("no-tasks");
   } else {
@@ -95,15 +126,14 @@ function renderTasksListCompleted() {
       checkbox.checked = listSectionArray[index].checked || false;
     });
 
+  countTasksCompleted();
   console.log(listIndex, listSectionArray);
 }
 
 function createHeading(listTitle) {
   document.querySelector(
     ".container-heading"
-  ).innerHTML = `<h1 class="heading">${
-    listTitle || listToDoBtn.innerText
-  }</h1>`;
+  ).innerHTML = `<h1 class="heading">${listTitle || "To do"}</h1>`;
 }
 
 function createTaskHTML(task, index) {
@@ -129,24 +159,27 @@ function createTaskHTML(task, index) {
 }
 
 function createTaskHTMLCompleted(task, index) {
-  return ` 
+  return `
     <div class="task" data-task-index="${index}">
-        <label class="form-control-completed">
-        <input type="checkbox" name="checkbox" class="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
-        <input type="text" class="input-completed"value="${
+      <label class="form-control-completed">
+        <div class="task-flex">
+        <input type="checkbox" name="checkbox" onclick="checkCheckbox(${index})" ${checked}/>
+        <input type="text" class="input-completed" value="${
           task.title || ""
         }" placeholder="New Task" class="js-list-text"/>
+        </div>
         ${
           task.flagged
             ? '<div class="task-flagged-completed js-task-flagged"></div>'
             : ""
         }
         
+      
+        <p class="from-what-list">${task.list}</p>
+        <div class="completed-date-completed"><p>Completed: </p> <input type="date" class="date-completed js-due-date-input" value="${
+          task.dueDate || formattedToday
+        }" /></div>
       </label>
-      <p class="from-what-list">${task.list}</p>
-      <div class="completed-date-completed"><p>Completed: </p> <input type="date" class="date-completed js-due-date-input" value="${
-        task.dueDate || formattedToday
-      }" /></div>
     </div>
   `;
 }
@@ -215,11 +248,21 @@ function saveTask(index) {
 }
 
 function flagTask(index) {
+  const flaggedTask = document.querySelector(
+    `[data-task-index="${index}"] task-flagged`
+  );
   const task = listSectionArray[index];
   task.flagged = !task.flagged;
+  if (task.flagged) {
+    const flaggedTaskList = lists.listSectionFlagged;
+    flaggedTaskList.push(task);
+    storeTodoListFlagged();
+  } else if (!task.flagged) {
+    console.log("Task unflagged");
+  }
 
-  renderTasksList();
   storeTodoList();
+  renderTasksList();
 }
 
 function deleteTask(index) {
@@ -228,11 +271,79 @@ function deleteTask(index) {
   storeTodoList();
 }
 
+function countTasksToday() {
+  for (i = 0; i < lists.listSectionToday.length; i++) {
+    nTasksToday++;
+  }
+  document.getElementById("today-count").innerHTML = nTasksToday;
+}
+
+function countTasksCompleted() {
+  for (i = 0; i < lists.listSectionCompleted.length; i++) {
+    nTasksCompleted++;
+  }
+  document.getElementById("completed-count").innerHTML = nTasksCompleted;
+}
+
+function countTasksScheduled() {
+  for (i = 0; i < lists.listSectionScheduled.length; i++) {
+    nTasksScheduled++;
+  }
+  document.getElementById("scheduled-count").innerHTML = nTasksScheduled;
+}
+
+function countTasksAll() {
+  for (i = 0; i < lists.listSectionAll.length; i++) {
+    nTasksAll++;
+  }
+  document.getElementById("all-count").innerHTML = nTasksAll;
+}
+
+function countTasksFlagged() {
+  for (i = 0; i < lists.listSectionFlagged.length; i++) {
+    nTasksFlagged++;
+  }
+  document.getElementById("flagged-count").innerHTML = nTasksFlagged;
+}
+
+function countTasksCompleted() {
+  for (i = 0; i < lists.listSectionCompleted.length; i++) {
+    nTasksCompleted++;
+  }
+  document.getElementById("completed-count").innerHTML = nTasksCompleted;
+}
+
+function countTasksReminders() {
+  for (i = 0; i < lists.listSectionReminder.length; i++) {
+    nTasksReminders++;
+  }
+  document.getElementById("reminders-count").innerHTML = nTasksReminders + " ›";
+}
+
+function countTasksTodo() {
+  for (i = 0; i < lists.listSectionToDo.length; i++) {
+    nTasksTodo++;
+  }
+  document.getElementById("to-do-count").innerHTML = nTasksTodo + " ›";
+}
+
+function completedDeleteAllBtn() {
+  document.querySelector(
+    ".container-heading"
+  ).innerHTML += `<div class="n-completed-clear"><p>${nTasksCompleted} Completed •</p><button class="clear-all-completed-tasks" onclick="deleteAll()">Clear</button></div>`;
+}
+
+function deleteAll() {
+  const completed = lists.listSectionCompleted;
+  completed.splice(0);
+  renderTasksList();
+  storeTodoListCompleted();
+}
+
 newTaskBtn.addEventListener("click", addTask);
 
 listTodayBtn.addEventListener("click", function () {
-  createHeading(listTodayBtn.innerText);
-  listTitle = "Today";
+  createHeading("Today");
   newTaskBtn.style.opacity = "1";
   const root = document.documentElement;
   root.style.setProperty("--color", "#4668ff");
@@ -243,8 +354,7 @@ listTodayBtn.addEventListener("click", function () {
 });
 
 listScheduletBtn.addEventListener("click", function () {
-  createHeading(listScheduletBtn.innerText);
-  listTitle = "Scheduled";
+  createHeading("Scheduled");
   const root = document.documentElement;
   root.style.setProperty("--color", "#ff4646");
   newTaskBtn.style.opacity = "0";
@@ -255,8 +365,7 @@ listScheduletBtn.addEventListener("click", function () {
 });
 
 listAllBtn.addEventListener("click", function () {
-  createHeading(listAllBtn.innerText);
-  listTitle = "All";
+  createHeading("All");
   const root = document.documentElement;
   root.style.setProperty("--color", "#000000");
   newTaskBtn.style.opacity = "0";
@@ -267,8 +376,7 @@ listAllBtn.addEventListener("click", function () {
 });
 
 listFlaggedBtn.addEventListener("click", function () {
-  createHeading(listFlaggedBtn.innerText);
-  listTitle = "Flagged";
+  createHeading("Flagged");
   const root = document.documentElement;
   root.style.setProperty("--color", "rgb(238, 146, 8)");
   newTaskBtn.style.opacity = "1";
@@ -279,7 +387,7 @@ listFlaggedBtn.addEventListener("click", function () {
 });
 
 listCompletedBtn.addEventListener("click", function () {
-  createHeading(listCompletedBtn.innerText);
+  createHeading("Completed");
   const root = document.documentElement;
   root.style.setProperty("--color", "#575757");
   newTaskBtn.style.opacity = "0";
@@ -287,11 +395,11 @@ listCompletedBtn.addEventListener("click", function () {
   storageVariable = "listSectionCompleted";
   listSectionArray = getCurrentListSectionArray();
   renderTasksListCompleted();
+  completedDeleteAllBtn();
 });
 
 listRemindersBtn.addEventListener("click", function () {
-  createHeading(listRemindersBtn.innerText);
-  listTitle = "Reminders";
+  createHeading("Reminders");
   const root = document.documentElement;
   root.style.setProperty("--color", "rgb(238, 146, 8)");
   newTaskBtn.style.opacity = "1";
@@ -302,8 +410,7 @@ listRemindersBtn.addEventListener("click", function () {
 });
 
 listToDoBtn.addEventListener("click", function () {
-  createHeading(listToDoBtn.innerText);
-  listTitle = "To do";
+  createHeading("To");
   const root = document.documentElement;
   root.style.setProperty("--color", "rgb(127, 8, 238)");
   newTaskBtn.style.opacity = "1";
@@ -321,5 +428,12 @@ function storeTodoListCompleted() {
   localStorage.setItem(
     "listSectionCompleted",
     JSON.stringify(lists.listSectionCompleted)
+  );
+}
+
+function storeTodoListFlagged() {
+  localStorage.setItem(
+    "listSectionFlagged",
+    JSON.stringify(lists.listSectionFlagged)
   );
 }
